@@ -3,6 +3,33 @@ require 'sinatra'
 
 set :sessions, true
 
+helpers do
+  def calculate_total(cards)
+  	arr = cards.map{|face| face[1]}
+
+  	total = 0
+  	arr.each do |v|
+  		if v == "A"
+  			total += 11
+  		else
+  			total += v.to_i == 0 ? 10 : v.to_i
+  		end
+  	end
+
+  	#correct for Aces
+  	arr.select{|face| face == "A"}.count.times do
+  		break if total <= 21
+  		total -= 10
+  	end
+
+  	total
+  end
+end
+
+before do
+  @show_hit_or_stay_buttons = true
+end
+
 get '/' do 
   if session[:player_name]
   	redirect '/game'
@@ -36,6 +63,20 @@ get '/game' do
   erb :game
 end
 
+post '/game/player/hit' do
+  session[:player_cards] << session[:deck].pop
+  if calculate_total(session[:player_cards]) > 21
+  	@error = "Sorry, it looks like you busted."
+  	@show_hit_or_stay_buttons = false
+  end
+  erb :game
+end
+
+post '/game/player/stay' do
+	@success = "You have chosen to stay."
+	@show_hit_or_stay_buttons = false
+  erb :game
+end
 
 
 get '/about' do
