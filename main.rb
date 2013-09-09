@@ -76,11 +76,11 @@ before do
 end
 
 get '/' do 
-  if session[:player_name]
-  	redirect '/game'
-  else
-  	redirect '/new_player'
-  end
+  redirect '/home'
+end
+
+get '/home' do
+  erb :home
 end
 
 get '/new_player' do
