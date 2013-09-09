@@ -4,13 +4,14 @@
     <h2>Welcome to Jack's Blackjack</h2>
 
     <p>Let's play some Blackjack!</p>
+    <p><img src="images/blackjack_large.png" alt="Blackjack" class="img-rounded"></p>
     <p>
     	<% if session[:player_name] %>
-        <a class="btn btn-success" href="/game">Continue Your Game</a>
+        <a class="btn btn-success btn-block" href="/game">Continue Your Game</a>
   	  <% end %>
   	</p>
   	<p>
-  	  <a class="btn btn-primary" href="/new_player">Start a New Game</a>
+  	  <a class="btn btn-primary btn-block" href="/new_player">Start a New Game</a>
     </p>
   </body>
 </html>
